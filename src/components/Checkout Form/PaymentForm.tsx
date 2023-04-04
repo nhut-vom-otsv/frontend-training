@@ -1,16 +1,17 @@
 import React, { useContext } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import SmallButton from "../SmallButton";
 import OutlineInput from "./OutlineInput";
-import { rules } from "../../constants/form";
 import { FormContext, PaymentType } from "../../context/FormContext";
+import { validationPaymentSchema } from "../../constants/validate";
 
 const PaymentForm = (): React.ReactElement => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<PaymentType>();
+  } = useForm<PaymentType>({ resolver: yupResolver(validationPaymentSchema) });
 
   const { formState, nextStep, previousStep, setPayment } =
     useContext(FormContext);
@@ -27,7 +28,6 @@ const PaymentForm = (): React.ReactElement => {
       <Controller
         name="owner"
         control={control}
-        rules={rules.owner}
         defaultValue={formData.owner}
         render={({ field, fieldState }) => (
           <OutlineInput
@@ -43,7 +43,6 @@ const PaymentForm = (): React.ReactElement => {
         <Controller
           name="cardNumber"
           control={control}
-          rules={rules.cardNumber}
           defaultValue={formData.cardNumber}
           render={({ field, fieldState }) => (
             <OutlineInput
@@ -59,7 +58,6 @@ const PaymentForm = (): React.ReactElement => {
         <Controller
           name="cvc"
           control={control}
-          rules={rules.cvc}
           defaultValue={formData.cvc}
           render={({ field, fieldState }) => (
             <OutlineInput

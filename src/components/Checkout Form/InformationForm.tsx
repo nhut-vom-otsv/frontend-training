@@ -1,16 +1,19 @@
 import React, { useContext } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import OutlineInput from "./OutlineInput";
 import SmallButton from "../SmallButton";
 import { FormContext, InformationType } from "../../context/FormContext";
-import { rules } from "../../constants/form";
+import { validationInformationSchema } from "../../constants/validate";
 
 const InformationForm = (): React.ReactElement => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<InformationType>();
+  } = useForm<InformationType>({
+    resolver: yupResolver(validationInformationSchema),
+  });
 
   const { formState, nextStep, setInformation } = useContext(FormContext);
 
@@ -26,7 +29,6 @@ const InformationForm = (): React.ReactElement => {
       <Controller
         name="name"
         control={control}
-        rules={rules.fullName}
         defaultValue={formData.name}
         render={({ field, fieldState }) => (
           <OutlineInput
@@ -42,7 +44,6 @@ const InformationForm = (): React.ReactElement => {
       <Controller
         name="phone"
         control={control}
-        rules={rules.phone}
         defaultValue={formData.phone}
         render={({ field, fieldState }) => (
           <OutlineInput
@@ -58,7 +59,6 @@ const InformationForm = (): React.ReactElement => {
       <Controller
         name="email"
         control={control}
-        rules={rules.email}
         defaultValue={formData.email}
         render={({ field, fieldState }) => (
           <OutlineInput

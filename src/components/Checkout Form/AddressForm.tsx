@@ -1,16 +1,17 @@
 import React, { useContext } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import SmallButton from "../SmallButton";
 import OutlineInput from "./OutlineInput";
-import { rules } from "../../constants/form";
 import { AddressType, FormContext } from "../../context/FormContext";
+import { validationAddressSchema } from "../../constants/validate";
 
 const AddressForm = (): React.ReactElement => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<AddressType>();
+  } = useForm<AddressType>({ resolver: yupResolver(validationAddressSchema) });
 
   const { formState, nextStep, previousStep, setAddress } =
     useContext(FormContext);
@@ -28,7 +29,6 @@ const AddressForm = (): React.ReactElement => {
         <Controller
           name="number"
           control={control}
-          rules={rules.apartmentNumber}
           defaultValue={formData.number}
           render={({ field, fieldState }) => (
             <OutlineInput
@@ -44,7 +44,6 @@ const AddressForm = (): React.ReactElement => {
         <Controller
           name="street"
           control={control}
-          rules={rules.street}
           defaultValue={formData.street}
           render={({ field, fieldState }) => (
             <OutlineInput
@@ -75,7 +74,6 @@ const AddressForm = (): React.ReactElement => {
         <Controller
           name="city"
           control={control}
-          rules={rules.city}
           defaultValue={formData.city}
           render={({ field, fieldState }) => (
             <OutlineInput
@@ -92,7 +90,6 @@ const AddressForm = (): React.ReactElement => {
       <Controller
         name="country"
         control={control}
-        rules={rules.country}
         defaultValue={formData.country}
         render={({ field, fieldState }) => (
           <OutlineInput
