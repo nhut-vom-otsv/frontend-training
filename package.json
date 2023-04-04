@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@tanstack/react-query": "^4.28.0",
     "axios": "^1.3.4",
     "framer-motion": "^10.10.0",

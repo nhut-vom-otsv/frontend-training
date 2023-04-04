@@ -33,7 +33,7 @@ const Carousel = (): React.ReactElement => {
       ))}
 
       <div className="absolute -bottom-4 w-full">
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex h-4 items-center justify-center gap-2">
           {carouselImages.map((_, index) => (
             <div
               className={`h-2 w-2 rounded-full bg-black

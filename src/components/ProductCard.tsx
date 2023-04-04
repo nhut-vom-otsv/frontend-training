@@ -86,7 +86,7 @@ const ProductCard = (props: {
             <p className="truncate text-lg font-semibold">{product.title}</p>
           </Link>
 
-          <p className="truncate text-sm text-gray-500">
+          <p className="text-sm text-gray-500 line-clamp-2">
             {product.description}
           </p>
         </div>
