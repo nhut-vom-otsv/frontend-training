@@ -53,6 +53,7 @@ const OrderCard = ({ order }: { order: OrderType }): React.ReactElement => {
         We appreciate your business, and hope you enjoy your purchase.
       </p>
       <p className="font-semibold">Thank you!</p>
+      <p className="self-end text-sm text-gray-400">Order ID: {order.uuid}</p>
     </div>
   );
 };

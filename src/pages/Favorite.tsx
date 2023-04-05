@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import OpacityMotionDiv from "../components/Animation/OpacityMotionDiv";
 import { SelectSortMenu } from "../utils/SelectSortMenu";
 import { ProductDetails } from "../constants/data";
 import { FavoriteContext } from "../context/FavoriteContext";
@@ -24,11 +25,11 @@ const Favorite = (): React.ReactElement => {
       </div>
 
       {/* Favorite List  */}
-      <div className="mt-10 grid w-auto grid-cols-1 justify-items-center gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-fluid">
+      <OpacityMotionDiv className="mt-10 grid w-auto grid-cols-1 justify-items-center gap-x-5 gap-y-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-fluid">
         {filteredProducts.map((product: ProductDetails) => (
           <ProductCard product={product} key={product.id} />
         ))}
-      </div>
+      </OpacityMotionDiv>
     </div>
   );
 };

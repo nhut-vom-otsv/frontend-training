@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
+import times from "lodash/times";
+import { AnimatePresence, motion } from "framer-motion";
 import Carousel from "../components/Carousel";
-import ProductCard from "../components/ProductCard";
+import ProductCard, { ProductCardSkeleton } from "../components/ProductCard";
 import { ProductDetails, SortOptions, testProduct } from "../constants/data";
 import { SelectSortMenu } from "../utils/SelectSortMenu";
 import { FetchProducts } from "../services/api";
 import { SortAndFilterProduct } from "../utils/SortAndFilterProduct";
+import OpacityMotionDiv from "../components/Animation/OpacityMotionDiv";
+
+const DEFAULT_QUANTITY_PRODUCT_SKELETON = 20; // Number of products skeletons in the loading screen
 
 const Product = (): React.ReactElement => {
   const { products, isLoading } = FetchProducts();
@@ -27,13 +32,21 @@ const Product = (): React.ReactElement => {
       </div>
 
       {/* Product List */}
-      <div className="mt-10 grid w-auto grid-cols-1 justify-items-center gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-fluid">
-        {isLoading
-          ? "loading..."
-          : filteredProducts.map((product: ProductDetails) => (
-              <ProductCard product={product} key={product.id} />
-            ))}
-      </div>
+      <AnimatePresence>
+        <motion.div className="mt-10 grid w-auto grid-cols-1 justify-items-center gap-x-5 gap-y-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-fluid">
+          {isLoading
+            ? times(DEFAULT_QUANTITY_PRODUCT_SKELETON, (index) => (
+                <OpacityMotionDiv>
+                  <ProductCardSkeleton key={index} />
+                </OpacityMotionDiv>
+              ))
+            : filteredProducts.map((product: ProductDetails) => (
+                <OpacityMotionDiv>
+                  <ProductCard product={product} key={product.id} />
+                </OpacityMotionDiv>
+              ))}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };

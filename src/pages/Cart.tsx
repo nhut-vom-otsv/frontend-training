@@ -22,7 +22,7 @@ const Cart = (): React.ReactElement => {
   }, [cartState.cartList]);
 
   const handleCheckout = () => {
-    if (cartState.cartValue) redirect("/checkout");
+    if (cartState.cartValue > 0) redirect("/checkout");
     else {
       setContent("Can't checkout with an empty cart");
       setIsError(true);

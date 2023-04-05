@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import QuantityButton from "../components/QuantityButton";
 import RatingStar from "../components/RatingStar";
 import SmallButton from "../components/SmallButton";
-import { ProductDetails, testProduct } from "../constants/data";
+import OpacityMotionDiv from "../components/Animation/OpacityMotionDiv";
 import { GoodsIcon, TruckIcon } from "../assets/icons";
 import { CartContext } from "../context/CartContext";
 import { FetchProductDetails } from "../services/api";
+import { useNotification } from "../hooks/useNotification";
+import SlideDownDisappearDiv from "../components/Animation/SlideDownDisappearDiv";
+import DotsLoading from "../components/Animation/DotsLoading";
 
 const DEFAULT_QUANTITY_CHANGE = 1; // Only increase or decrease 1 when click
 
@@ -16,6 +20,9 @@ const ProductDetail = (): React.ReactElement => {
 
   const { addToCart, calculateCartValue } = useContext(CartContext);
   const [quantity, setQuantity] = useState<number>(1);
+
+  const { renderNotification, handleOpenNotification, setContent } =
+    useNotification();
 
   const handleIncrement = () => {
     setQuantity((quantity) => quantity + DEFAULT_QUANTITY_CHANGE);
@@ -32,14 +39,23 @@ const ProductDetail = (): React.ReactElement => {
   const handleAddToCart = () => {
     addToCart(quantity, data);
     calculateCartValue(quantity, data);
+    setContent(`Added ${quantity} ${data.title} to cart`);
+    handleOpenNotification();
   };
 
   return (
     <div>
       {isLoading ? (
-        "loading"
+        <AnimatePresence>
+          <SlideDownDisappearDiv>
+            <div className="flex h-screen w-full items-center justify-center">
+              <DotsLoading />
+            </div>
+          </SlideDownDisappearDiv>
+        </AnimatePresence>
       ) : (
-        <>
+        <OpacityMotionDiv>
+          {renderNotification()}
           <div className="my-10 flex w-full flex-col items-center justify-center gap-5 md:flex-row">
             <div className="flex w-full items-center justify-center md:w-1/2">
               <img
@@ -71,16 +87,17 @@ const ProductDetail = (): React.ReactElement => {
                   Suggested payments with 6 or 12 months special financing
                 </p>
 
-                <hr className="my-5 h-px border-0 bg-gray-200"></hr>
+                <hr className="my-2 h-px border-0 bg-gray-200 md:my-5"></hr>
+              </div>
+              <div className="mx-5 scale-150 md:mx-0 md:scale-100">
+                <QuantityButton
+                  quantity={quantity}
+                  onIncrement={handleIncrement}
+                  onDecrement={handleDecrement}
+                />
               </div>
 
-              <QuantityButton
-                quantity={quantity}
-                onIncrement={handleIncrement}
-                onDecrement={handleDecrement}
-              />
-
-              <div className="my-5 flex">
+              <div className="my-2 flex md:my-5">
                 <SmallButton name="Add to Cart" onClick={handleAddToCart} />
               </div>
 
@@ -115,7 +132,7 @@ const ProductDetail = (): React.ReactElement => {
             <p className="text-justify">{data.description}</p>
             <hr className="my-3 h-px border-0 bg-gray-200"></hr>
           </div>
-        </>
+        </OpacityMotionDiv>
       )}
     </div>
   );

@@ -83,7 +83,7 @@ const ProductCart = ({
       <img
         src={product.image}
         alt={product.title}
-        className="h-4/5 min-w-[5.625rem] self-center object-contain"
+        className="h-4/5 min-w-[5.6rem] max-w-[6rem] self-center object-contain"
       />
 
       <div className="flex w-full justify-between ">
