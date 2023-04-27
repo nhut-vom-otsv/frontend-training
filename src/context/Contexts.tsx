@@ -8,6 +8,8 @@ import { defaultForm, FormProvider } from "./FormContext";
 import { OrderProvider } from "./OrderContext";
 import { NotificationProvider } from "./NotificationContext";
 import { NotificationType } from "../components/Notification";
+import { UserDataType } from "../services/auth.api";
+import { AuthProvider } from "./AuthContext";
 
 type ChildrenType = {
   children: React.ReactElement | React.ReactElement[];
@@ -33,29 +35,39 @@ const Contexts = ({ children }: ChildrenType): React.ReactElement => {
     !!Object.keys(orderList).length ? orderList : []
   );
 
+  const userData = getLocalStorageValue({ key: "key" });
+  const [user, setUser] = useState<UserDataType>(
+    !!Object.keys(userData).length ? userData : {}
+  );
+
   return (
     <NotificationProvider notificationList={initNotificationList}>
-      <QueryClientProvider client={queryClient}>
-        <OrderProvider orderList={orders}>
-          <FavoriteProvider favoriteList={list}>
-            <CartProvider
-              cartList={initCartList}
-              cartValue={0}
-              cartPositions={initCartPosition}
-            >
-              <FormProvider
-                information={defaultForm.information}
-                address={defaultForm.address}
-                payment={defaultForm.payment}
-                forms={defaultForm.forms}
-                step={defaultForm.step}
+      <AuthProvider
+        accessToken={user?.accessToken}
+        refreshToken={user?.refreshToken}
+      >
+        <QueryClientProvider client={queryClient}>
+          <OrderProvider orderList={orders}>
+            <FavoriteProvider favoriteList={list}>
+              <CartProvider
+                cartList={initCartList}
+                cartValue={0}
+                cartPositions={initCartPosition}
               >
-                {children}
-              </FormProvider>
-            </CartProvider>
-          </FavoriteProvider>
-        </OrderProvider>
-      </QueryClientProvider>
+                <FormProvider
+                  information={defaultForm.information}
+                  address={defaultForm.address}
+                  payment={defaultForm.payment}
+                  forms={defaultForm.forms}
+                  step={defaultForm.step}
+                >
+                  {children}
+                </FormProvider>
+              </CartProvider>
+            </FavoriteProvider>
+          </OrderProvider>
+        </QueryClientProvider>
+      </AuthProvider>
     </NotificationProvider>
   );
 };

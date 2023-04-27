@@ -26,12 +26,6 @@ const dotVariants = {
   },
 };
 
-const DotTransition = {
-  duration: 0.5,
-  yoyo: Infinity,
-  ease: "easeInOut",
-};
-
 export default function DotsLoading() {
   return (
     <motion.div
@@ -43,7 +37,12 @@ export default function DotsLoading() {
       {times(NUMBER_OF_DOTS, (index) => (
         <motion.span
           variants={dotVariants}
-          transition={DotTransition}
+          transition={{
+            duration: 0.5,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+          }}
           className="block h-5 w-5 rounded-full bg-black"
           key={index}
         />

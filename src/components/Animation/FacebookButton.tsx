@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigatePage } from "../../hooks/useNavigatePage";
 import { Link } from "react-router-dom";
+import { facebookConstants } from "../../constants/data";
 
 const FacebookButton = () => {
   const { redirect } = useNavigatePage();
@@ -12,7 +13,9 @@ const FacebookButton = () => {
   };
 
   return (
-    <Link to="http://localhost:3000/auth/facebook">
+    <Link
+      to={`https://www.facebook.com/v16.0/dialog/oauth?client_id=${facebookConstants.clientID}&redirect_uri=${facebookConstants.callbackUrl}`}
+    >
       <motion.div
         className="flex items-center justify-center rounded-full bg-black p-2 text-white focus:outline-none"
         variants={buttonVariants}

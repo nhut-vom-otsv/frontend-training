@@ -1,30 +1,61 @@
 import React, { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import DotsLoading from "../components/Animation/DotsLoading";
 import { updateLocalStorageValue } from "../utils/LocalStorage";
 import { NotificationContext } from "../context/NotificationContext";
 import { useNavigatePage } from "../hooks/useNavigatePage";
+import DecodeEmailFromJWT from "../utils/DecodeJWT";
+import { useMutation } from "@tanstack/react-query";
+import { loginFacebook } from "../services/auth.api";
+import { AuthContext } from "../context/AuthContext";
+import { facebookConstants } from "../constants/data";
 
 const DELAY_WHILE_LOADING = 2000;
 
 const GetToken = () => {
-  const { token } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { notify } = useContext(NotificationContext);
+  const { updateUserData } = useContext(AuthContext);
   const { redirect } = useNavigatePage();
 
-  useEffect(() => {
-    token && updateLocalStorageValue({ key: "key", value: atob(token) });
-    notify({
-      content: `Redirecting...`,
-      type: token ? "success" : "error",
-      open: true,
-      id: crypto.randomUUID(),
-    });
-    const timer = setTimeout(() => {
-      token ? redirect("/") : redirect("/login");
-    }, DELAY_WHILE_LOADING);
+  const { mutate, isLoading } = useMutation(loginFacebook, {
+    onSuccess: (response) => {
+      notify({
+        content: `Login successfully`,
+        type: "success",
+        open: true,
+        id: crypto.randomUUID(),
+      });
 
-    return () => clearTimeout(timer);
+      updateUserData({
+        email: DecodeEmailFromJWT(response?.accessToken),
+        accessToken: response?.accessToken,
+        refreshToken: response?.refreshToken,
+      });
+    },
+    onError: () => {
+      notify({
+        content: `Wrong credentials`,
+        type: "error",
+        open: true,
+        id: crypto.randomUUID(),
+      });
+    },
+  });
+
+  useEffect(() => {
+    const authCode = searchParams.get("code");
+    if (authCode) {
+      mutate({ code: authCode, callbackUrl: facebookConstants.callbackUrl });
+    }
+
+    if (!isLoading) {
+      const timer = setTimeout(() => {
+        isLoading ? redirect("/") : redirect("/login");
+      }, DELAY_WHILE_LOADING);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (

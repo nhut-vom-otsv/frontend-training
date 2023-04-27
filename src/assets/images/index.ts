@@ -9,6 +9,8 @@ import SilverRings from "./silver-ring.png";
 import Headphone from "./headphone.png";
 import Watch from "./watch.png";
 import LoginBackground from "./login-background.jpg";
+import Logo from "./logo.png";
+import LogoTransparent from "./logo_transparent.png";
 
 export {
   FakeLogo,
@@ -22,4 +24,6 @@ export {
   WomenShirt,
   SilverRings,
   LoginBackground,
+  Logo,
+  LogoTransparent,
 };

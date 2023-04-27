@@ -4,7 +4,7 @@ import { CartContext } from "../context/CartContext";
 import { ProductDetails } from "../constants/data";
 
 type FlyingImageType = {
-  image: any;
+  image: string;
   alt?: string;
   timeout?: number;
   id: string;

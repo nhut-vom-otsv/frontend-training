@@ -29,7 +29,7 @@ const OutlineInput = ({
       <label htmlFor={name} className="font-semibold first-letter:capitalize">
         {label}
       </label>
-      <div className="relative w-full rounded-lg bg-gray-50 p-3 focus-within:border-2 focus-within:border-black">
+      <div className="relative w-full rounded-lg border-2 border-transparent bg-gray-50 p-3 focus-within:border-black">
         <input
           type={showPassword ? "text" : type}
           id={name}

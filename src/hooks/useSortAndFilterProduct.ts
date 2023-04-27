@@ -22,22 +22,20 @@ export const useSortAndFilterProduct = ({
     let sortedProducts = [...products];
     switch (sortOption) {
       case SortValue.PRICE_ASC:
-        sortedProducts.sort((a, b) => a.price - b.price);
-        break;
-      case SortValue.PRICE_DESC:
-        sortedProducts.sort((a, b) => b.price - a.price);
-        break;
-      case SortValue.AZ:
-        sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case SortValue.ZA:
-        sortedProducts.sort((a, b) => b.title.localeCompare(a.title));
-        break;
-      default:
-        break;
-    }
+        return sortedProducts.sort((a, b) => a.price - b.price);
 
-    return sortedProducts;
+      case SortValue.PRICE_DESC:
+        return sortedProducts.sort((a, b) => b.price - a.price);
+
+      case SortValue.AZ:
+        return sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
+
+      case SortValue.ZA:
+        return sortedProducts.sort((a, b) => b.title.localeCompare(a.title));
+
+      default:
+        return sortedProducts;
+    }
   };
 
   const capitalizeFirstLetter = (str: string) => {

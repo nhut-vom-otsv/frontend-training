@@ -10,7 +10,7 @@ const initLocalStorage = (key: string) => {
 const getLocalStorageValue = (data: LocalStorageType) => {
   const value = localStorage.getItem(data.key);
   if (value === null) initLocalStorage(data.key);
-  return JSON.parse(value ?? "");
+  return JSON.parse(value ?? "{}");
 };
 
 const updateLocalStorageValue = (data: LocalStorageType) => {

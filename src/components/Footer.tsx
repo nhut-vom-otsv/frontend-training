@@ -5,14 +5,18 @@ import {
   footerContents,
   FooterContentType,
 } from "../constants/data";
-import { FakeLogo } from "../assets/images";
+import { LogoTransparent } from "../assets/images";
 
 const Footer = (): React.ReactElement => {
   return (
     <div className=" relative mt-5 flex  w-full flex-col items-center justify-center rounded-t-xl bg-black md:h-60">
       <div className="my-10 flex w-2/3 flex-col items-center justify-center gap-y-3 text-white md:flex-row md:items-start md:justify-around md:gap-5">
         <div className=" flex w-44 flex-col items-center justify-center gap-1 md:items-start">
-          <img src={FakeLogo} alt="logo" className="mb-3 h-5" />
+          <img
+            src={LogoTransparent}
+            alt="logo"
+            className="object-fit mb-3 h-10"
+          />
           {footerContact.map((info: string, index) => (
             <p className="text-[0.625rem] text-slate-300" key={index}>
               {info}

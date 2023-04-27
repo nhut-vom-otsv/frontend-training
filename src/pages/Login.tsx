@@ -2,16 +2,21 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import React, { useContext, useMemo, useState } from "react";
-import { FakeLogo, LoginBackground, ShoppingArt } from "../assets/images";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import {
+  LoginBackground,
+  LogoTransparent,
+  ShoppingArt,
+} from "../assets/images";
 import FacebookButton from "../components/Animation/FacebookButton";
-import GoogleButton from "../components/Animation/GoogleButton";
-import TwitterButton from "../components/Animation/TwitterButton";
 import OutlineInput from "../components/CheckoutForm/OutlineInput";
 import { validationLoginSchema } from "../constants/validate";
 import { login } from "../services/auth.api";
 import { NotificationContext } from "../context/NotificationContext";
 import { useNavigatePage } from "../hooks/useNavigatePage";
+import { AuthContext } from "../context/AuthContext";
+import { getLocalStorageValue } from "../utils/LocalStorage";
+import DecodeEmailFromJWT from "../utils/DecodeJWT";
 
 const DELAY_BEFORE_REDIRECT = 1500;
 
@@ -29,16 +34,23 @@ const Login = (): React.ReactElement => {
     resolver: yupResolver(validationLoginSchema),
   });
 
+  const { authState, updateUserData } = useContext(AuthContext);
   const { notify } = useContext(NotificationContext);
   const { redirect } = useNavigatePage();
 
   const { mutate } = useMutation(login, {
-    onSuccess: () => {
+    onSuccess: (response) => {
       notify({
         content: `Login successfully`,
         type: "success",
         open: true,
         id: crypto.randomUUID(),
+      });
+
+      updateUserData({
+        email: DecodeEmailFromJWT(response?.accessToken),
+        accessToken: response?.accessToken,
+        refreshToken: response?.refreshToken,
       });
       setTimeout(() => {
         redirect("/");
@@ -90,6 +102,12 @@ const Login = (): React.ReactElement => {
     mutate(loginData);
   };
 
+  useEffect(() => {
+    if (!!Object.keys(authState).length)
+      if (!!Object.keys(getLocalStorageValue({ key: "key" })).length)
+        redirect("/");
+  }, []);
+
   return (
     <motion.div
       variants={containerVariants}
@@ -106,7 +124,7 @@ const Login = (): React.ReactElement => {
         variants={leftAppearVariants}
         className="z-10 mx-3 my-auto flex h-fit w-full flex-col items-start justify-center rounded-lg border-2 bg-white px-10 py-10 shadow-2xl md:w-1/2 lg:w-1/3"
       >
-        <img src={FakeLogo} alt="logo" className="h-2" />
+        <img src={LogoTransparent} alt="logo" className="h-9 invert" />
 
         <motion.div
           className="my-6"
@@ -129,12 +147,6 @@ const Login = (): React.ReactElement => {
         >
           <motion.div variants={buttonVariants}>
             <FacebookButton />
-          </motion.div>
-          <motion.div variants={buttonVariants}>
-            <GoogleButton />
-          </motion.div>
-          <motion.div variants={buttonVariants}>
-            <TwitterButton />
           </motion.div>
         </motion.div>
 
