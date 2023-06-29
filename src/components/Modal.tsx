@@ -45,7 +45,7 @@ const Modal = ({ open, onClose, onSubmit, title, children }: ModalType) => {
     <PortalWrapper>
       <AnimatePresence>
         {visibility && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <motion.div
               className="mx-3 rounded-lg bg-white p-6 shadow-lg"
               variants={modalVariants}
@@ -54,7 +54,9 @@ const Modal = ({ open, onClose, onSubmit, title, children }: ModalType) => {
               exit="hidden"
             >
               <h2 className="mb-4 text-lg font-medium">{title}</h2>
-              <div className="mb-4">{children}</div>
+              <div className="mb-4 max-h-[30rem] overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full">
+                {children}
+              </div>
               <div className="flex justify-end">
                 {onClose && (
                   <button

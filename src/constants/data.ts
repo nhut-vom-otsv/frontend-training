@@ -5,6 +5,9 @@ import {
   PaymentType,
 } from "../context/FormContext";
 import Layout from "../layout/Layout";
+import AddAddress from "../pages/AddAddress";
+import Address from "../pages/Address";
+import AddressDetail from "../pages/AddressDetail";
 import Cart from "../pages/Cart";
 import ChangePassword from "../pages/ChangePassword";
 import Checkout from "../pages/Checkout";
@@ -14,10 +17,30 @@ import GetToken from "../pages/GetToken";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Order from "../pages/Order";
+import Payment from "../pages/Payment";
 import Product from "../pages/Product";
 import ProductDetail from "../pages/ProductDetail";
 import Profile from "../pages/Profile";
 import Register from "../pages/Register";
+import AddPayment from "../pages/AddPayment";
+
+export type AddressCard = {
+  id?: string;
+  address?: string;
+  name?: string;
+  phoneNumber?: string;
+  email?: string;
+  lat?: number;
+  lng?: number;
+};
+
+export type PaymentCard = {
+  id?: string;
+  cardNumber?: string;
+  cardOwner?: string;
+  cvc?: string;
+  expiry?: string;
+};
 
 type CarouselImageType = {
   url: string;
@@ -169,6 +192,21 @@ export const footerContents: FooterContentType[] = [
   },
 ];
 
+export const userMenu = [
+  {
+    name: "Profile",
+    url: "profile",
+  },
+  {
+    name: "Address",
+    url: "address",
+  },
+  {
+    name: "Payment",
+    url: "payment",
+  },
+];
+
 export const publicRoutes: Routes[] = [
   {
     path: "/",
@@ -231,5 +269,30 @@ export const publicRoutes: Routes[] = [
   {
     path: "/auth/:socialType/callback/",
     component: GetToken,
+  },
+  {
+    path: "/address",
+    component: Address,
+    layout: Layout,
+  },
+  {
+    path: "/address/:id",
+    component: AddressDetail,
+    layout: Layout,
+  },
+  {
+    path: "/address/add",
+    component: AddAddress,
+    layout: Layout,
+  },
+  {
+    path: "/payment",
+    component: Payment,
+    layout: Layout,
+  },
+  {
+    path: "/payment/add",
+    component: AddPayment,
+    layout: Layout,
   },
 ];

@@ -1,6 +1,6 @@
 export * from "./DetermineNotificationType";
 export * from "./ScrollToTop";
-export * from "./selectSortMenu";
+export * from "./SelectSortMenu";
 export * from "./capitalizeFirstLetter";
 export * from "./checkIsTokenExpired";
 export * from "./covertTimeStamp";
@@ -12,3 +12,4 @@ export * from "./getTokensFromLocalStorage";
 export * from "./localStorage";
 export * from "./refreshToken";
 export * from "./determineSortDirections";
+export * from "./paymentFn";

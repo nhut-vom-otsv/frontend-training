@@ -1,9 +1,9 @@
 import { UseFormRegister, Path } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import React, { HTMLInputTypeAttribute, useState } from "react";
+import React, { HTMLInputTypeAttribute, useState, HTMLProps } from "react";
 import EyeButton from "../Animation/EyeButton";
 
-interface OutlineInputType {
+interface OutlineInputType extends HTMLProps<HTMLInputElement> {
   label: string;
   name: Path<any>;
   error?: any;
@@ -21,12 +21,13 @@ const OutlineInput = ({
   type = "text",
   disabled = false,
   placeholder,
+  ...rest
 }: OutlineInputType): React.ReactElement => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <div className="flex w-full flex-col gap-2 pb-2">
-      <label htmlFor={name} className="font-semibold first-letter:capitalize">
+      <label htmlFor={name} className="font-semibold capitalize">
         {label}
       </label>
       <div
@@ -43,6 +44,7 @@ const OutlineInput = ({
           className={`min-h-[1.5rem] ${
             type === "password" ? "w-[90%]" : "w-full"
           } bg-transparent focus:outline-none`}
+          {...rest}
         />
         {type === "password" && (
           <EyeButton

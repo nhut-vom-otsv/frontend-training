@@ -19,7 +19,7 @@ import HamburgerButton from "./Animation/HamburgerButton";
 import SearchBar from "./SearchBar";
 import { Logo, LogoTransparent } from "../assets/images";
 import { UserDataContext } from "../context/UserDataContext";
-import { navList } from "../constants";
+import { navList, userMenu } from "../constants";
 import { getProductList } from "../services/products.api";
 
 const NavBar = (): React.ReactElement => {
@@ -85,7 +85,6 @@ const NavBar = (): React.ReactElement => {
 
   const handleOpenProfile = () => {
     setOpenUserBox(!openUserBox);
-    redirect("/profile");
   };
 
   const handleScroll = () => {
@@ -150,19 +149,24 @@ const NavBar = (): React.ReactElement => {
             {renderUserAvatar()}
 
             <motion.div
-              className="absolute right-[100%] top-[100%] z-50 flex min-w-max flex-col rounded-md border-2 bg-white shadow-2xl"
+              className="absolute right-[100%] top-[120%] z-50 flex min-w-max flex-col rounded-md border-2 bg-white shadow-2xl"
               variants={avatarMenuVariants}
               initial="closed"
               animate={openUserBox ? "open" : "closed"}
               style={{ pointerEvents: openUserBox ? "auto" : "none" }}
             >
-              <motion.div
-                className="w-full cursor-pointer rounded-md py-2 px-5 text-gray-900 hover:bg-gray-100"
-                variants={itemVariants}
-                onClick={handleOpenProfile}
-              >
-                <p>Profile</p>
-              </motion.div>
+              {userMenu.map((item, index) => (
+                <Link to={`/${item.url}`} key={index}>
+                  <motion.div
+                    className="w-full cursor-pointer rounded-md py-2 px-5 text-gray-900 hover:bg-gray-100"
+                    variants={itemVariants}
+                    onClick={handleOpenProfile}
+                  >
+                    <p>{item.name}</p>
+                  </motion.div>
+                </Link>
+              ))}
+
               <motion.div
                 className="w-full cursor-pointer rounded-md py-2 px-5 text-gray-900 hover:bg-gray-100"
                 variants={itemVariants}

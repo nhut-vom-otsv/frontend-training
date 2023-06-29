@@ -19,7 +19,7 @@ export const useGetOrderFormFields = () => {
     },
     {
       label: "Phone number",
-      name: "phone",
+      name: "phoneNumber",
     },
     {
       label: "Personal email",
@@ -29,31 +29,15 @@ export const useGetOrderFormFields = () => {
 
   const addressFormArray: FormField[] = [
     {
-      label: "Apartment number",
-      name: "number",
-    },
-    {
-      label: "Street",
-      name: "street",
-    },
-    {
-      label: "Ward",
-      name: "ward",
-    },
-    {
-      label: "City",
-      name: "city",
-    },
-    {
-      label: "Country",
-      name: "country",
+      label: "Full Address",
+      name: "address",
     },
   ];
 
   const paymentFormArray: FormField[] = [
     {
-      label: "card owner",
-      name: "owner",
+      label: "card name",
+      name: "cardOwner",
     },
     {
       label: "Card number",
@@ -62,6 +46,10 @@ export const useGetOrderFormFields = () => {
     {
       label: "CVC",
       name: "cvc",
+    },
+    {
+      label: "Expired date",
+      name: "expiry",
     },
   ];
 

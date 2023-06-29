@@ -7,21 +7,20 @@ import PaymentForm from "../components/CheckoutForm/PaymentForm";
 export type InformationType = {
   name: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
 };
 
 export type AddressType = {
-  number: string;
-  street: string;
-  ward: string;
-  city: string;
-  country: string;
+  address: string;
+  lat?: number;
+  lng?: number;
 };
 
 export type PaymentType = {
   cardNumber: string;
-  owner: string;
+  cardOwner: string;
   cvc: string;
+  expiry: string;
 };
 
 export type FormStateType = {
@@ -36,19 +35,16 @@ export const defaultForm: FormStateType = {
   information: {
     name: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
   },
   address: {
-    number: "",
-    street: "",
-    ward: "",
-    city: "",
-    country: "",
+    address: "",
   },
   payment: {
     cardNumber: "",
-    owner: "",
+    cardOwner: "",
     cvc: "",
+    expiry: "",
   },
   forms: [InformationForm, AddressForm, PaymentForm, ConfirmForm],
   step: 0,
